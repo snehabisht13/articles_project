@@ -4,3 +4,17 @@
   <p><strong>Name:</strong> <%= @user.username %></p>
   <p><strong>Email:</strong> <%= @user.email %></p>
 </div>
+
+<h3>All articles by <%= @user.username %></h3>
+
+<ul>
+<% @articles.each do |article| %>
+  <li>
+  <div>
+      <p>Title: <%= article.title %></p>
+    <p> Description: <%= article.description %></p>
+    </div>
+  
+  <%end%>
+  </li>
+  </ul>
