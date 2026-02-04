@@ -68,3 +68,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
