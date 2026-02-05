@@ -6,6 +6,8 @@
 </div>
 
 <h3>All articles by <%= @user.username %></h3>
+<%= link_to 'create article' , new_article_path%>
+<td><%= link_to 'delete', user_path(@user) , data: {turbo_method: :delete , turbo_confirm: "Are you sure"}%></td>
 
 <ul>
 <% @articles.each do |article| %>

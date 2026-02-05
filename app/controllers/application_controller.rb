@@ -9,10 +9,21 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in?
 
     def currUser
-        @currUser ||= User.find(session[:user_id]) if session[:user_id]
+         @currUser ||= User.find_by(id: session[:user_id])
     end
 
-     def logged_in?
+    def logged_in?
         !!currUser
     end
-end
+
+    def require_user
+        if !logged_in?
+            flash[:notice] = "You must be logged in to perform that action"
+            redirect_to login_path
+        end
+    end
+
+    
+
+
+    end 

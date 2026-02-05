@@ -1,5 +1,6 @@
 <h1>Articles listing page</h1>
 
+
 <table>
     <thead>
         <tr>
@@ -15,9 +16,11 @@
             <td> <%= article.description%> </td>
 
             <td><%= link_to 'show', article_path(article)%></td>
-            <% if logged_in? && currUser == article.user %>
+
+            <% if logged_in? && currUser == article.user || currUser.admin? %>
             <td><%= link_to 'edit', edit_article_path(article)%></td>
             <td><%= link_to 'delete', article_path(article) , data: {turbo_method: :delete , turbo_confirm: "Are you sure"}%></td>
+           
             <% end %>
         </tr>
     <% end %>
@@ -25,6 +28,16 @@
     
 </table>
 
+
+<% if logged_in?%>
 <%= link_to 'Create new' , new_article_path%>
-<%= link_to 'Home page', root_path%>
 <%= link_to 'Logout', logout_path, data: {turbo_method: :delete}%>
+ <td><%= link_to 'Edit profile', edit_user_path(currUser)%></td>
+<% else %>
+<%= link_to 'Login', login_path %>
+<%= link_to 'Sign Up', signup_path %>
+<% end %>
+
+<% if currUser && currUser.admin? %>
+ <h1>Welcome admin</h1>
+ <%end%>

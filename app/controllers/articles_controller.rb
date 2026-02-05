@@ -1,11 +1,14 @@
 class ArticlesController < ApplicationController
     before_action :articles_id, only: [:show, :edit, :update, :destroy]
+    before_action :require_user, except: [:index, :show]
+    before_action :require_same_user, only: [:edit, :update, :destroy]
+
     def show
         
     end
 
     def index
-        @articles = Article.all
+        @articles = Article.paginate(page: params[:page], per_page: 2)
     end
 
     def new
@@ -39,7 +42,6 @@ class ArticlesController < ApplicationController
     end
 
     def destroy
-        
         @article.destroy
         redirect_to articles_path
     end
@@ -53,5 +55,11 @@ class ArticlesController < ApplicationController
         params.require(:article).permit(:title,:description)
     end
 
+    def require_same_user
+        if currUser != @article.user && !currUser.admin?
+            flash[:alert] = "You can only edit your own profile"
+            redirect_to @article
+        end
+    end
 
 end

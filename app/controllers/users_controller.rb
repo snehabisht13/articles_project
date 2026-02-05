@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+    before_action :require_user, except: [:new,:create,:show]
+    before_action :require_same_user, only: [:edit, :update, :destroy]
+
     def new 
      @user = User.new
     end
@@ -37,10 +40,23 @@ class UsersController < ApplicationController
         @articles = @user.articles
     end
 
+    def destroy 
+        @currUser.destroy if @currUser.admin?
+        flash[:notice] = "User and all articles created by user deleted"
+        redirect_to articles_path
+    end
+
     private 
     def user_params
         params.require(:user).permit(:username, :email, :password)
     end
 
+    def require_same_user
+        @user = User.find(params[:id])
+        if currUser != @user
+            flash[:alert] = "You can only edit your own profile"
+            redirect_to @user
+        end
+    end
 
 end
