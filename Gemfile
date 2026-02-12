@@ -70,4 +70,4 @@ group :test do
 end
 
 gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate', '~> 4.0.1'
